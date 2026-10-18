@@ -17,3 +17,25 @@ pub fn format_row(offset: usize, chunk: &[u8]) -> String {
 
     s
 }
+
+#[cfg(test)] mod tests {
+    use super::*;
+
+    #[test]
+    fn full_row() {
+        let row = format_row(0, b"0123456789abcdef");
+        assert_eq!(
+            row,
+            "00000000  30 31 32 33 34 35 36 37 38 39 61 62 63 64 65 66  |0123456789abcdef|\n"
+        );
+    }
+
+    #[test]
+    fn short_row() {
+        let row = format_row(0, b"hi\r\nyo\r\nok");
+        assert_eq!(
+            row,
+            "00000000  68 69 0d 0a 79 6f 0d 0a 6f 6b                    |hi..yo..ok|\n"
+        )
+    }
+}
