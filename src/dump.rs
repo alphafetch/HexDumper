@@ -32,10 +32,10 @@ pub fn format_row(offset: usize, chunk: &[u8]) -> String {
 
     #[test]
     fn short_row() {
-        let row = format_row(0, b"hi\r\nyo\r\nok");
+        let row = format_row(16, b"hi\r\nyo\r\nok");
         assert_eq!(
             row,
-            "00000000  68 69 0d 0a 79 6f 0d 0a 6f 6b                    |hi..yo..ok|\n"
+            "00000010  68 69 0d 0a 79 6f 0d 0a 6f 6b                    |hi..yo..ok|\n"
         )
     }
 }
