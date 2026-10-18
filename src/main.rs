@@ -9,6 +9,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         for b in chunk {
             print!("{:02x} ", b);
         }
+        print!("{}", "   ".repeat(16 - chunk.len()));
+        print!(" |");
+        for b in chunk {
+            match *b as char {
+                '\x20'..='\x7e' => print!("{}", *b as char),
+                _ => print!("."),
+            }
+        }
+        print!("|");
         println!();
     }
     Ok(())
