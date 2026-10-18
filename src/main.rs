@@ -3,11 +3,22 @@ use std::fs;
 
 mod dump;
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let path: String = env::args().nth(1).ok_or("usage: hex_dumper <file>")?;
-    let bytes: Vec<u8> = fs::read(&path)?;
+fn main() {
+    let path: String = match env::args().nth(1) {
+        Some(p) => p,
+        None => {
+            eprintln!("usage: hex_dumper <file>");
+            std::process::exit(1);
+        },
+    };
+    let bytes: Vec<u8> = match fs::read(&path) {
+        Ok(f) => f,
+        Err(e) => {
+            eprintln!("hex_dumper: cannot read `{}`: {}", &path, e);
+            std::process::exit(1);
+        },
+    };
     for (i, chunk) in bytes.chunks(16).enumerate() {
         print!("{}", dump::format_row(i * 16, chunk));
     }
-    Ok(())
 }
